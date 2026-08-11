@@ -5,546 +5,430 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Toko Sembako Segar — Belanja Kebutuhan Harian</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root{--green:#16a34a;--green-d:#15803d;--green-l:#dcfce7;--bg:#fafaf9;--card:#fff;--text:#1c1917;--muted:#78716c;--border:#e7e5e4;--red:#dc2626;--orange:#f59e0b;--blue:#2563eb;--radius:12px;--shadow:0 2px 8px rgba(0,0,0,.08)}
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
-    a{text-decoration:none;color:inherit}
-
-    /* ===== HEADER ===== */
-    header{background:var(--green);color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.15)}
-    .header-top{background:var(--green-d);padding:.4rem 1.5rem;text-align:center;font-size:.8rem;opacity:.9}
-    .header-main{max-width:1200px;margin:0 auto;padding:.75rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
-    .logo{font-size:1.5rem;font-weight:800;display:flex;align-items:center;gap:.5rem;white-space:nowrap}
-    .search-bar{flex:1;max-width:450px;position:relative}
-    .search-bar input{width:100%;padding:.6rem 1rem .6rem 2.5rem;border-radius:8px;border:none;font-size:.95rem;outline:none}
-    .search-bar .icon{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);font-size:1rem}
-    .header-actions{display:flex;gap:.75rem;align-items:center}
-    .header-btn{background:rgba(255,255,255,.15);color:#fff;border:none;padding:.5rem .9rem;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:500;transition:background .2s}
-    .header-btn:hover{background:rgba(255,255,255,.25)}
-    .badge{background:#fbbf24;color:#1c1917;border-radius:50%;padding:.05rem .4rem;font-size:.7rem;font-weight:700;margin-left:.2rem}
-
-    /* ===== NAV ===== */
-    .nav{background:#fff;border-bottom:1px solid var(--border);overflow-x:auto}
-    .nav-inner{max-width:1200px;margin:0 auto;padding:0 1.5rem;display:flex;gap:.5rem}
-    .nav a{padding:.6rem 1rem;font-size:.85rem;font-weight:500;color:var(--muted);white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s}
-    .nav a:hover,.nav a.active{color:var(--green);border-color:var(--green)}
-
-    /* ===== LAYOUT ===== */
-    .container{max-width:1200px;margin:0 auto;padding:1.5rem}
-
-    /* ===== BANNER ===== */
-    .banner{background:linear-gradient(135deg,var(--green),var(--green-d));color:#fff;border-radius:var(--radius);padding:3rem 2rem;margin-bottom:2rem;position:relative;overflow:hidden}
-    .banner::after{content:'🛒';position:absolute;right:2rem;top:50%;transform:translateY(-50%);font-size:8rem;opacity:.15}
-    .banner h1{font-size:2rem;margin-bottom:.5rem}
-    .banner p{opacity:.9;max-width:500px}
-    .banner-btn{background:#fff;color:var(--green);border:none;padding:.7rem 1.5rem;border-radius:8px;font-weight:600;cursor:pointer;margin-top:1rem}
-
-    /* ===== CATEGORY ===== */
-    .cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.75rem;margin-bottom:2rem}
-    .cat{text-align:center;background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1rem .5rem;cursor:pointer;transition:all .2s}
-    .cat:hover,.cat.active{border-color:var(--green);background:var(--green-l);transform:translateY(-2px)}
-    .cat .icon{font-size:2rem;display:block;margin-bottom:.3rem}
-    .cat .name{font-size:.8rem;font-weight:600}
-
-    /* ===== PRODUCTS ===== */
-    .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem}
-    .p-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .2s;cursor:pointer}
-    .p-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
-    .p-img{height:160px;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:4rem;position:relative}
-    .p-badge{position:absolute;top:.5rem;left:.5rem;background:var(--orange);color:#fff;padding:.15rem .5rem;border-radius:6px;font-size:.7rem;font-weight:600}
-    .p-info{padding:1rem}
-    .p-cat{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-    .p-name{font-weight:600;margin:.3rem 0;font-size:.95rem}
-    .p-desc{font-size:.8rem;color:var(--muted);margin-bottom:.5rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-    .p-bottom{display:flex;justify-content:space-between;align-items:center}
-    .p-price{font-size:1.1rem;font-weight:700;color:var(--green)}
-    .p-old{font-size:.8rem;color:var(--muted);text-decoration:line-through;margin-left:.3rem}
-    .p-rating{font-size:.8rem;color:var(--orange)}
-    .add-btn{background:var(--green);color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:1.2rem;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center}
-    .add-btn:hover{background:var(--green-d)}
-
-    /* ===== SECTION ===== */
-    .section{margin-bottom:2rem}
-    .section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
-    .section-title{font-size:1.4rem;font-weight:700}
-    .see-all{color:var(--green);font-weight:600;font-size:.9rem}
-
-    /* ===== PRODUCT DETAIL MODAL ===== */
-    .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;padding:1rem}
-    .modal-bg.show{display:flex}
-    .modal{background:#fff;border-radius:var(--radius);max-width:600px;width:100%;max-height:90vh;overflow-y:auto;position:relative}
-    .modal-close{position:absolute;top:1rem;right:1rem;background:rgba(0,0,0,.1);border:none;width:32px;height:32px;border-radius:50%;font-size:1.2rem;cursor:pointer;z-index:1}
-    .modal-img{height:250px;background:var(--green-l);display:flex;align-items:center;justify-content:center;font-size:6rem}
-    .modal-body{padding:1.5rem}
-    .modal-body h2{font-size:1.4rem;margin-bottom:.3rem}
-    .modal-body .price{font-size:1.3rem;font-weight:700;color:var(--green);margin:.5rem 0}
-    .modal-body .desc{color:var(--muted);font-size:.9rem;margin-bottom:1rem}
-    .modal-row{display:flex;gap:.5rem;margin-bottom:1rem}
-    .size-btn{border:2px solid var(--border);background:#fff;padding:.4rem .8rem;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600;transition:all .2s}
-    .size-btn.active{border-color:var(--green);background:var(--green-l)}
-    .modal-add{width:100%;background:var(--green);color:#fff;border:none;padding:.8rem;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;margin-top:.5rem}
-    .modal-features{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:1rem;font-size:.85rem;color:var(--muted)}
-    .modal-features div{display:flex;align-items:center;gap:.4rem}
-
-    /* ===== CART SIDEBAR ===== */
-    .cart-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200}
-    .cart-bg.show{display:block}
-    .cart-panel{position:fixed;top:0;right:0;width:420px;max-width:100%;height:100%;background:#fff;box-shadow:-4px 0 24px rgba(0,0,0,.15);display:flex;flex-direction:column;z-index:210;transform:translateX(100%);transition:transform .3s}
-    .cart-bg.show .cart-panel{transform:translateX(0)}
-    .cart-head{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-    .cart-body{flex:1;overflow-y:auto;padding:1rem 1.5rem}
-    .ci{display:flex;align-items:center;gap:.75rem;padding:.75rem 0;border-bottom:1px solid var(--border)}
-    .ci-icon{font-size:1.8rem}
-    .ci-info{flex:1}
-    .ci-name{font-weight:600;font-size:.9rem}
-    .ci-price{color:var(--green);font-weight:600;font-size:.85rem}
-    .ci-qty{display:flex;align-items:center;gap:.3rem}
-    .ci-qty button{background:var(--green-l);border:none;width:26px;height:26px;border-radius:6px;cursor:pointer;font-weight:700}
-    .ci-qty span{font-weight:600;min-width:20px;text-align:center}
-    .ci-remove{background:none;border:none;color:var(--red);cursor:pointer;font-size:.8rem}
-    .cart-foot{padding:1rem 1.5rem;border-top:2px solid var(--border)}
-    .cart-total{display:flex;justify-content:space-between;font-weight:700;font-size:1.1rem;margin-bottom:.75rem}
-    .cart-btn{width:100%;padding:.75rem;border:none;border-radius:8px;font-weight:600;font-size:.95rem;cursor:pointer}
-    .cart-btn.primary{background:var(--green);color:#fff}
-    .cart-btn.secondary{background:var(--green-l);color:var(--green);margin-top:.5rem}
-    .cart-empty{text-align:center;padding:2rem 0;color:var(--muted)}
-    .cart-empty .icon{font-size:3rem;margin-bottom:.5rem}
-
-    /* ===== CHECKOUT ===== */
-    .checkout-section{display:none;max-width:800px;margin:2rem auto;padding:0 1.5rem}
-    .checkout-section.show{display:block}
-    .checkout-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:1.5rem}
-    .form-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem}
-    .form-card h3{margin-bottom:1rem;font-size:1.1rem}
-    .form-group{margin-bottom:1rem}
-    .form-group label{display:block;font-size:.85rem;font-weight:500;margin-bottom:.3rem}
-    .form-group input,.form-group select,.form-group textarea{width:100%;padding:.6rem .8rem;border:1px solid var(--border);border-radius:8px;font-size:.9rem;font-family:inherit}
-    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-    .payment-opt{display:flex;align-items:center;gap:.5rem;padding:.6rem;border:1px solid var(--border);border-radius:8px;cursor:pointer;margin-bottom:.5rem;transition:border-color .2s}
-    .payment-opt.active{border-color:var(--green);background:var(--green-l)}
-    .payment-opt input{accent-color:var(--green)}
-    .order-summary{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;height:fit-content;position:sticky;top:80px}
-    .order-summary h3{margin-bottom:1rem;font-size:1.1rem}
-    .os-item{display:flex;justify-content:space-between;font-size:.9rem;padding:.4rem 0;border-bottom:1px solid var(--border)}
-    .os-total{display:flex;justify-content:space-between;font-weight:700;font-size:1.1rem;padding-top:.5rem;margin-top:.5rem;border-top:2px solid var(--border)}
-
-    /* ===== SUCCESS ===== */
-    .success-section{display:none;text-align:center;padding:3rem 1.5rem;max-width:600px;margin:0 auto}
-    .success-section.show{display:block}
-    .success-icon{font-size:5rem;margin-bottom:1rem}
-    .success-section h2{margin-bottom:.5rem}
-    .success-section p{color:var(--muted);margin-bottom:1.5rem}
-    .success-table{text-align:left;background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem}
-    .success-table tr td{padding:.3rem 0;font-size:.9rem}
-    .success-table tr td:first-child{color:var(--muted);width:150px}
-
-    /* ===== ORDERS ===== */
-    .orders-section{display:none;max-width:800px;margin:2rem auto;padding:0 1.5rem}
-    .orders-section.show{display:block}
-    .order-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.5rem;margin-bottom:1rem}
-    .order-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
-    .order-id{font-weight:700}
-    .order-status{padding:.2rem .6rem;border-radius:20px;font-size:.75rem;font-weight:600}
-    .status-pending{background:#fef3c7;color:#92400e}
-    .status-paid{background:#dbeafe;color:#1e40af}
-    .status-shipped{background:#d1fae5;color:#065f46}
-    .status-delivered{background:#dcfce7;color:#166534}
-    .order-items{font-size:.85rem;color:var(--muted);margin:.5rem 0}
-    .order-total{font-weight:600}
-
-    /* ===== TOAST ===== */
-    .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#1c1917;color:#fff;padding:.7rem 1.5rem;border-radius:8px;font-weight:500;z-index:300;display:none;box-shadow:0 4px 16px rgba(0,0,0,.2)}
-    .toast.show{display:block;animation:slideUp .3s}
-    @keyframes slideUp{from{transform:translateX(-50%) translateY(20px);opacity:0}to{transform:translateX(-50%) translateY(0);opacity:1}}
-
-    /* ===== FOOTER ===== */
-    footer{background:#292524;color:#d6d3d1;padding:3rem 1.5rem;margin-top:3rem}
-    .footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem}
-    .footer-brand{font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:.5rem}
-    .footer-links h4{color:#fff;margin-bottom:.7rem;font-size:.9rem}
-    .footer-links a{color:var(--muted);text-decoration:none;display:block;margin-bottom:.3rem;font-size:.85rem}
-    .footer-links a:hover{color:#fff}
-    .footer-bottom{max-width:1200px;margin:1.5rem auto 0;padding-top:1rem;border-top:1px solid #44403c;text-align:center;font-size:.8rem;color:var(--muted)}
-
-    /* ===== RESPONSIVE ===== */
-    @media(max-width:768px){
-      .search-bar{max-width:200px}
-      .banner h1{font-size:1.5rem}
-      .banner::after{font-size:4rem;right:1rem}
-      .checkout-grid{grid-template-columns:1fr}
-      .footer-grid{grid-template-columns:1fr 1fr}
-      .nav-inner{padding:.5rem 1rem}
-      .products{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand: { DEFAULT:'#16a34a', dark:'#15803d', light:'#dcfce7' }, surface:'#fafaf9', dark:'#1c1917', muted:'#78716c' },
+          fontFamily: { sans:['Inter','sans-serif'] }
+        }
+      }
     }
-    @media(max-width:480px){
-      .header-main{flex-wrap:wrap}
-      .search-bar{order:3;max-width:100%;flex-basis:100%}
-      .footer-grid{grid-template-columns:1fr}
-    }
-
-    .page{display:none}.page.active{display:block}
-  </style>
+  </script>
 </head>
-<body>
+<body class="bg-surface text-dark font-sans">
 
-<!-- HEADER -->
-<header>
-  <div class="header-top">🚚 Gratis ongkir untuk pembelian di atas Rp 200.000 — Bandung & sekitarnya</div>
-  <div class="header-main">
-    <a href="#" class="logo" onclick="showPage('home')">🛒 Toko Sembako Segar</a>
-    <div class="search-bar">
-      <span class="icon">🔍</span>
-      <input type="text" placeholder="Cari beras, minyak, bumbu..." id="searchInput" oninput="searchProducts()">
+<div id="app">
+  <!-- ===== HEADER ===== -->
+  <header class="bg-brand text-white sticky top-0 z-50 shadow-lg">
+    <div class="bg-brand-dark py-1 text-center text-xs opacity-90">
+      🚚 Gratis ongkir pembelian di atas Rp 200.000 — Bandung & sekitarnya
     </div>
-    <div class="header-actions">
-      <button class="header-btn" onclick="showPage('orders')">📦 Pesanan Saya</button>
-      <button class="header-btn" onclick="openCart()">🛒 Keranjang <span class="badge" id="cartBadge">0</span></button>
-    </div>
-  </div>
-</header>
-
-<!-- NAV -->
-<div class="nav">
-  <div class="nav-inner">
-    <a href="#" class="active" onclick="filterCat('semua')">Semua</a>
-    <a href="#" onclick="filterCat('beras')">🍚 Beras</a>
-    <a href="#" onclick="filterCat('minyak')">🫒 Minyak</a>
-    <a href="#" onclick="filterCat('gula')">🧂 Gula & Garam</a>
-    <a href="#" onclick="filterCat('bumbu')">🌶️ Bumbu</a>
-    <a href="#" onclick="filterCat('mi')">🍜 Mie</a>
-    <a href="#" onclick="filterCat('minuman')">🥤 Minuman</a>
-    <a href="#" onclick="filterCat('snack')">🍪 Snack</a>
-    <a href="#" onclick="filterCat('promo')">🔥 Promo</a>
-  </div>
-</div>
-
-<!-- PAGE: HOME -->
-<div class="page active" id="page-home">
-  <div class="container">
-    <div class="banner">
-      <h1>Kebutuhan Harian, Langsung ke Rumah 🏠</h1>
-      <p>Beras premium, minyak goreng, gula, bumbu — semua kebutuhan sembako ada. Pengiriman hari ini untuk area Bandung.</p>
-      <button class="banner-btn" onclick="document.getElementById('section-produk').scrollIntoView({behavior:'smooth'})">Belanja Sekarang</button>
-    </div>
-
-    <div class="section">
-      <div class="section-head"><h2 class="section-title">Kategori</h2></div>
-      <div class="cats">
-        <div class="cat" onclick="filterCat('beras')"><span class="icon">🍚</span><span class="name">Beras</span></div>
-        <div class="cat" onclick="filterCat('minyak')"><span class="icon">🫒</span><span class="name">Minyak</span></div>
-        <div class="cat" onclick="filterCat('gula')"><span class="icon">🧂</span><span class="name">Gula & Garam</span></div>
-        <div class="cat" onclick="filterCat('bumbu')"><span class="icon">🌶️</span><span class="name">Bumbu</span></div>
-        <div class="cat" onclick="filterCat('mi')"><span class="icon">🍜</span><span class="name">Mie</span></div>
-        <div class="cat" onclick="filterCat('minuman')"><span class="icon">🥤</span><span class="name">Minuman</span></div>
-        <div class="cat" onclick="filterCat('snack')"><span class="icon">🍪</span><span class="name">Snack</span></div>
-        <div class="cat" onclick="filterCat('promo')"><span class="icon">🔥</span><span class="name">Promo</span></div>
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-4 justify-between flex-wrap">
+      <a href="#" @click.prevent="page='home'" class="text-xl font-extrabold whitespace-nowrap flex items-center gap-2">🛒 Toko Sembako Segar</a>
+      <div class="flex-1 max-w-xl relative hidden sm:block">
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-base">🔍</span>
+        <input v-model="search" @input="filterProducts()" type="text" placeholder="Cari beras, minyak, bumbu..." class="w-full py-2 pl-10 pr-4 rounded-lg text-sm text-dark focus:outline-none focus:ring-2 focus:ring-green-300">
+      </div>
+      <div class="flex items-center gap-2">
+        <button @click="page='orders'" class="bg-white/15 hover:bg-white/25 px-3 py-1.5 rounded-lg text-sm font-medium transition">📦 Pesanan</button>
+        <button @click="showCart=true" class="bg-white/15 hover:bg-white/25 px-3 py-1.5 rounded-lg text-sm font-medium transition">
+          🛒 Keranjang
+          <span v-if="cartCount" class="bg-yellow-400 text-dark rounded-full px-1.5 py-0.5 text-xs font-bold ml-1">{{ cartCount }}</span>
+        </button>
       </div>
     </div>
-
-    <div class="section" id="section-produk">
-      <div class="section-head"><h2 class="section-title" id="sectionTitle">Semua Produk</h2><span class="see-all" id="productCount"></span></div>
-      <div class="products" id="productGrid"></div>
+    <!-- Mobile search -->
+    <div class="sm:hidden px-4 pb-3">
+      <input v-model="search" @input="filterProducts()" type="text" placeholder="Cari produk..." class="w-full py-2 px-3 rounded-lg text-sm text-dark focus:outline-none">
     </div>
-  </div>
-</div>
+  </header>
 
-<!-- PAGE: CHECKOUT -->
-<div class="checkout-section" id="page-checkout">
-  <h2 style="margin-bottom:1.5rem">📝 Checkout</h2>
-  <div class="checkout-grid">
-    <div>
-      <div class="form-card">
-        <h3>📍 Alamat Pengiriman</h3>
-        <div class="form-group"><label>Nama Lengkap</label><input type="text" id="fname" placeholder="Nama lengkap"></div>
-        <div class="form-group"><label>No. Telepon</label><input type="tel" id="fphone" placeholder="08xx-xxxx-xxxx"></div>
-        <div class="form-group"><label>Alamat Lengkap</label><textarea id="faddress" rows="3" placeholder="Jl. Contoh No. 123, RT 01/RW 02, Kel. Sukapura, Kec. Dayeuhkolot, Kab. Bandung"></textarea></div>
-        <div class="form-row">
-          <div class="form-group"><label>Kota/Kab</label><input type="text" value="Bandung" readonly></div>
-          <div class="form-group"><label>Kode Pos</label><input type="text" id="fzip" placeholder="40253"></div>
+  <!-- ===== NAV ===== -->
+  <nav class="bg-white border-b border-stone-200 overflow-x-auto">
+    <div class="max-w-7xl mx-auto px-4 flex gap-1">
+      <button v-for="c in categories" :key="c.key" @click="setCat(c.key)"
+        :class="currentCat===c.key ? 'border-brand text-brand bg-brand-light' : 'border-transparent text-stone-500 hover:text-brand'"
+        class="px-4 py-2.5 text-sm font-medium border-b-2 whitespace-nowrap transition">
+        {{ c.icon }} {{ c.label }}
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== PAGE: HOME ===== -->
+  <main v-show="page==='home'" class="max-w-7xl mx-auto px-4 py-6">
+    <!-- Banner -->
+    <div class="bg-gradient-to-br from-brand to-brand-dark text-white rounded-2xl p-8 mb-6 relative overflow-hidden">
+      <div class="absolute right-6 top-1/2 -translate-y-1/2 text-8xl opacity-15 hidden md:block">🛒</div>
+      <h1 class="text-2xl md:text-3xl font-bold mb-2">Kebutuhan Harian, Langsung ke Rumah 🏠</h1>
+      <p class="opacity-90 max-w-lg mb-4">Beras premium, minyak goreng, gula, bumbu — semua kebutuhan sembako ada. Pengiriman hari ini untuk area Bandung.</p>
+      <button @click="$el.closest('main').querySelector('#products')?.scrollIntoView({behavior:'smooth'})" class="bg-white text-brand px-5 py-2.5 rounded-lg font-semibold hover:bg-stone-50 transition">Belanja Sekarang</button>
+    </div>
+
+    <!-- Categories -->
+    <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3 mb-6">
+      <button v-for="c in categories.filter(c=>c.key!=='semua'&&c.key!=='promo')" :key="c.key"
+        @click="setCat(c.key)" class="bg-white border border-stone-200 rounded-xl p-3 text-center hover:border-brand hover:bg-brand-light hover:-translate-y-0.5 transition-all">
+        <span class="text-3xl block mb-1">{{ c.icon }}</span>
+        <span class="text-xs font-semibold">{{ c.label }}</span>
+      </button>
+    </div>
+
+    <!-- Products -->
+    <div id="products" class="mb-4 flex justify-between items-center">
+      <h2 class="text-xl font-bold">{{ catLabel }}</h2>
+      <span class="text-sm text-stone-500">{{ filtered.length }} produk</span>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+      <div v-for="p in filtered" :key="p.id"
+        @click="openDetail(p)" class="bg-white border border-stone-200 rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer group">
+        <div class="h-36 bg-brand-light flex items-center justify-center text-5xl relative group-hover:scale-105 transition-transform">
+          {{ p.icon }}
+          <span v-if="p.promo" class="absolute top-2 left-2 bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">PROMO</span>
+        </div>
+        <div class="p-3">
+          <p class="text-xs text-stone-400 uppercase tracking-wide">{{ p.cat }}</p>
+          <h3 class="font-semibold text-sm mt-0.5 leading-tight">{{ p.name }}</h3>
+          <p class="text-xs text-stone-500 mt-0.5 line-clamp-2">{{ p.desc }}</p>
+          <div class="flex justify-between items-end mt-2">
+            <div>
+              <span class="font-bold text-brand">Rp {{ p.price.toLocaleString('id-ID') }}</span>
+              <span v-if="p.promo" class="text-xs text-stone-400 line-through ml-1">Rp {{ Math.round(p.price*1.2).toLocaleString('id-ID') }}</span>
+            </div>
+            <button @click.stop="addCart(p.id)" class="bg-brand text-white w-8 h-8 rounded-full flex items-center justify-center text-lg hover:bg-brand-dark transition">+</button>
+          </div>
+          <p class="text-xs text-yellow-500 mt-1">⭐ {{ p.rating }} · {{ p.reviews }} ulasan</p>
         </div>
       </div>
-      <div class="form-card" style="margin-top:1rem">
-        <h3>🚚 Metode Pengiriman</h3>
-        <div class="payment-opt active" onclick="selectShipping(this,'grab')" data-price="15000"><input type="radio" name="shipping" checked><div><strong>GoSend / GrabExpress</strong><br><small>Hari ini · Rp 15.000</small></div></div>
-        <div class="payment-opt" onclick="selectShipping(this,'jne')" data-price="8000"><input type="radio" name="shipping"><div><strong>JNE YES</strong><br><small>1-2 hari · Rp 8.000</small></div></div>
-        <div class="payment-opt" onclick="selectShipping(this,'jt')" data-price="7000"><input type="radio" name="shipping"><div><strong>J&T Express</strong><br><small>2-3 hari · Rp 7.000</small></div></div>
-      </div>
-      <div class="form-card" style="margin-top:1rem">
-        <h3>💳 Metode Pembayaran</h3>
-        <div class="payment-opt active" onclick="selectPayment(this,'cod')"><input type="radio" name="payment" checked><div><strong>COD</strong><br><small>Bayar di tempat</small></div></div>
-        <div class="payment-opt" onclick="selectPayment(this,'qris')"><input type="radio" name="payment"><div><strong>QRIS</strong><br><small>Bayar via QR</small></div></div>
-        <div class="payment-opt" onclick="selectPayment(this,'va')"><input type="radio" name="payment"><div><strong>Transfer Bank (VA)</strong><br><small>BCA, Mandiri, BRI</small></div></div>
-        <div class="payment-opt" onclick="selectPayment(this,'ewallet')"><input type="radio" name="payment"><div><strong>E-Wallet</strong><br><small>GoPay, OVO, DANA</small></div></div>
-      </div>
     </div>
-    <div>
-      <div class="order-summary">
-        <h3>📋 Ringkasan Pesanan</h3>
-        <div id="orderItems"></div>
-        <div class="os-item"><span>Subtotal</span><span id="osSubtotal">Rp 0</span></div>
-        <div class="os-item"><span>Pengiriman</span><span id="osShipping">Rp 15.000</span></div>
-        <div class="os-item" id="osDiscountRow" style="display:none"><span>Discount</span><span id="osDiscount" style="color:var(--green)">- Rp 0</span></div>
-        <div class="os-total"><span>Total</span><span id="osTotal">Rp 0</span></div>
-        <div class="form-group" style="margin-top:.75rem">
-          <label>Kode Voucher</label>
-          <div style="display:flex;gap:.5rem"><input type="text" id="voucherInput" placeholder="Masukkan kode"><button onclick="applyVoucher()" style="padding:.5rem 1rem;border:1px solid var(--green);background:var(--green-l);color:var(--green);border-radius:8px;font-weight:600;cursor:pointer;white-space:nowrap">Terapkan</button></div>
+    <p v-if="!filtered.length" class="text-center text-stone-400 py-12">Tidak ada produk yang cocok 😕</p>
+  </main>
+
+  <!-- ===== PAGE: CHECKOUT ===== -->
+  <main v-show="page==='checkout'" class="max-w-5xl mx-auto px-4 py-6">
+    <h2 class="text-2xl font-bold mb-6">📝 Checkout</h2>
+    <div class="grid md:grid-cols-5 gap-6">
+      <div class="md:col-span-3 space-y-4">
+        <!-- Address -->
+        <div class="bg-white border border-stone-200 rounded-xl p-5">
+          <h3 class="font-bold mb-3">📍 Alamat Pengiriman</h3>
+          <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="text-sm font-medium text-stone-600">Nama Lengkap</label><input v-model="form.name" type="text" class="w-full border border-stone-200 rounded-lg px-3 py-2 text-sm mt-1 focus:ring-2 focus:ring-brand focus:border-brand outline-none" placeholder="Nama"></div>
+              <div><label class="text-sm font-medium text-stone-600">No. Telepon</label><input v-model="form.phone" type="tel" class="w-full border border-stone-200 rounded-lg px-3 py-2 text-sm mt-1 focus:ring-2 focus:ring-brand focus:border-brand outline-none" placeholder="08xx"></div>
+            </div>
+            <div><label class="text-sm font-medium text-stone-600">Alamat Lengkap</label><textarea v-model="form.address" rows="3" class="w-full border border-stone-200 rounded-lg px-3 py-2 text-sm mt-1 focus:ring-2 focus:ring-brand focus:border-brand outline-none" placeholder="Jl. Contoh No. 123, Bandung"></textarea></div>
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="text-sm font-medium text-stone-600">Kota/Kab</label><input value="Bandung" readonly class="w-full border border-stone-200 rounded-lg px-3 py-2 text-sm mt-1 bg-stone-50"></div>
+              <div><label class="text-sm font-medium text-stone-600">Kode Pos</label><input v-model="form.zip" class="w-full border border-stone-200 rounded-lg px-3 py-2 text-sm mt-1 focus:ring-2 focus:ring-brand focus:border-brand outline-none" placeholder="40253"></div>
+            </div>
+          </div>
         </div>
-        <button class="modal-add" onclick="placeOrder()" style="margin-top:.75rem">✅ Bayar Sekarang</button>
-        <p style="font-size:.75rem;color:var(--muted);text-align:center;margin-top:.5rem">Dengan memesan, kamu menyetujui syarat & ketentuan kami</p>
+        <!-- Shipping -->
+        <div class="bg-white border border-stone-200 rounded-xl p-5">
+          <h3 class="font-bold mb-3">🚚 Pengiriman</h3>
+          <div v-for="s in shippings" :key="s.key" @click="selectedShipping=s"
+            :class="selectedShipping.key===s.key ? 'border-brand bg-brand-light' : 'border-stone-200'"
+            class="flex items-center gap-3 p-3 border-2 rounded-lg cursor-pointer transition mb-2">
+            <input type="radio" :checked="selectedShipping.key===s.key" class="accent-brand">
+            <div><p class="font-semibold text-sm">{{ s.label }}</p><p class="text-xs text-stone-500">{{ s.time }} · Rp {{ s.price.toLocaleString('id-ID') }}</p></div>
+          </div>
+        </div>
+        <!-- Payment -->
+        <div class="bg-white border border-stone-200 rounded-xl p-5">
+          <h3 class="font-bold mb-3">💳 Pembayaran</h3>
+          <div v-for="p in payments" :key="p.key" @click="selectedPayment=p"
+            :class="selectedPayment.key===p.key ? 'border-brand bg-brand-light' : 'border-stone-200'"
+            class="flex items-center gap-3 p-3 border-2 rounded-lg cursor-pointer transition mb-2">
+            <input type="radio" :checked="selectedPayment.key===p.key" class="accent-brand">
+            <div><p class="font-semibold text-sm">{{ p.icon }} {{ p.label }}</p><p class="text-xs text-stone-500">{{ p.desc }}</p></div>
+          </div>
+        </div>
+      </div>
+      <!-- Summary -->
+      <div class="md:col-span-2">
+        <div class="bg-white border border-stone-200 rounded-xl p-5 sticky top-24">
+          <h3 class="font-bold mb-3">📋 Ringkasan Pesanan</h3>
+          <div v-for="item in cart" :key="item.id" class="flex justify-between text-sm py-1.5 border-b border-stone-100">
+            <span>{{ item.icon }} {{ item.name }} × {{ item.qty }}</span>
+            <span class="font-medium">Rp {{ (item.price*item.qty).toLocaleString('id-ID') }}</span>
+          </div>
+          <div class="flex justify-between text-sm py-2 mt-2 border-b border-stone-100"><span class="text-stone-500">Subtotal</span><span>Rp {{ subtotal.toLocaleString('id-ID') }}</span></div>
+          <div class="flex justify-between text-sm py-2 border-b border-stone-100"><span class="text-stone-500">Pengiriman</span><span>Rp {{ selectedShipping.price.toLocaleString('id-ID') }}</span></div>
+          <div v-if="voucherDisc" class="flex justify-between text-sm py-2 border-b border-stone-100"><span class="text-green-600">Diskon</span><span class="text-green-600">-Rp {{ voucherDisc.toLocaleString('id-ID') }}</span></div>
+          <div class="flex justify-between font-bold text-lg py-3"><span>Total</span><span class="text-brand">Rp {{ total.toLocaleString('id-ID') }}</span></div>
+          <!-- Voucher -->
+          <div class="flex gap-2 mb-4">
+            <input v-model="voucherCode" placeholder="Kode voucher" class="flex-1 border border-stone-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:border-brand outline-none">
+            <button @click="applyVoucher" class="px-3 py-2 bg-brand-light text-brand border border-brand rounded-lg text-sm font-semibold hover:bg-brand hover:text-white transition">Terapkan</button>
+          </div>
+          <button @click="placeOrder" class="w-full bg-brand text-white py-3 rounded-lg font-bold text-sm hover:bg-brand-dark transition">✅ Bayar Sekarang — Rp {{ total.toLocaleString('id-ID') }}</button>
+          <p class="text-xs text-stone-400 text-center mt-2">Dengan memesan, kamu menyetujui syarat & ketentuan kami</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== PAGE: SUCCESS ===== -->
+  <main v-show="page==='success'" class="max-w-lg mx-auto px-4 py-12 text-center">
+    <div class="text-6xl mb-4">✅</div>
+    <h2 class="text-2xl font-bold mb-2">Pesanan Berhasil!</h2>
+    <p class="text-stone-500 mb-6">Terima kasih telah berbelanja. Pesananmu sedang kami proses.</p>
+    <div v-if="lastOrder" class="bg-white border border-stone-200 rounded-xl p-5 text-left mb-6">
+      <div class="space-y-2 text-sm">
+        <div class="flex justify-between"><span class="text-stone-500">No. Pesanan</span><span class="font-bold">{{ lastOrder.id }}</span></div>
+        <div class="flex justify-between"><span class="text-stone-500">Items</span><span>{{ lastOrder.items.map(i=>i.name+' ×'+i.qty).join(', ') }}</span></div>
+        <div class="flex justify-between"><span class="text-stone-500">Total</span><span class="font-bold text-brand">Rp {{ lastOrder.total.toLocaleString('id-ID') }}</span></div>
+        <div class="flex justify-between"><span class="text-stone-500">Pembayaran</span><span>{{ lastOrder.payment.toUpperCase() }}</span></div>
+        <div class="flex justify-between"><span class="text-stone-500">Pengiriman</span><span>{{ lastOrder.shipping.label }}</span></div>
+      </div>
+    </div>
+    <button @click="page='home'" class="bg-brand text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-dark transition">Kembali ke Beranda</button>
+  </main>
+
+  <!-- ===== PAGE: ORDERS ===== -->
+  <main v-show="page==='orders'" class="max-w-3xl mx-auto px-4 py-6">
+    <h2 class="text-2xl font-bold mb-6">📦 Pesanan Saya</h2>
+    <div v-if="!orders.length" class="text-center text-stone-400 py-12">Belum ada pesanan</div>
+    <div v-for="o in [...orders].reverse()" :key="o.id" class="bg-white border border-stone-200 rounded-xl p-4 mb-3">
+      <div class="flex justify-between items-start mb-2">
+        <span class="font-bold text-sm">{{ o.id }}</span>
+        <span :class="statusStyle(o.status)" class="text-xs font-semibold px-2.5 py-0.5 rounded-full">{{ statusLabel(o.status) }}</span>
+      </div>
+      <p class="text-sm text-stone-500 mb-1">{{ o.items.map(i=>i.name+' ×'+i.qty).join(', ') }}</p>
+      <p class="font-semibold text-brand">Rp {{ o.total.toLocaleString('id-ID') }}</p>
+    </div>
+  </main>
+
+  <!-- ===== PRODUCT DETAIL MODAL ===== -->
+  <div v-if="detailProduct" class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/50" @click.self="detailProduct=null">
+    <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto relative">
+      <button @click="detailProduct=null" class="absolute top-3 right-3 z-10 bg-black/10 hover:bg-black/20 w-8 h-8 rounded-full flex items-center justify-center transition">✕</button>
+      <div class="h-56 bg-brand-light flex items-center justify-center text-7xl">{{ detailProduct.icon }}</div>
+      <div class="p-5">
+        <p class="text-xs text-stone-400 uppercase tracking-wider">{{ detailProduct.cat }}</p>
+        <h2 class="text-xl font-bold mt-1">{{ detailProduct.name }}</h2>
+        <p class="text-yellow-500 text-sm">⭐ {{ detailProduct.rating }} · {{ detailProduct.reviews }} ulasan</p>
+        <p class="text-xl font-bold text-brand mt-2">Rp {{ detailProduct.price.toLocaleString('id-ID') }}</p>
+        <p class="text-stone-500 text-sm mt-3">{{ detailProduct.desc }}</p>
+        <div class="grid grid-cols-2 gap-2 mt-4 text-sm text-stone-600">
+          <div v-for="f in detailProduct.features" :key="f" class="flex items-center gap-1.5">✅ {{ f }}</div>
+        </div>
+        <button @click="addCart(detailProduct.id);detailProduct=null" class="w-full bg-brand text-white py-3 rounded-lg font-bold mt-5 hover:bg-brand-dark transition">🛒 Tambah ke Keranjang — Rp {{ detailProduct.price.toLocaleString('id-ID') }}</button>
       </div>
     </div>
   </div>
-</div>
 
-<!-- PAGE: SUCCESS -->
-<div class="success-section" id="page-success">
-  <div class="success-icon">✅</div>
-  <h2>Pesanan Berhasil!</h2>
-  <p>Terima kasih telah berbelanja. Pesananmu sedang kami proses.</p>
-  <div class="success-table" id="successDetails"></div>
-  <button class="modal-add" onclick="showPage('home')" style="max-width:300px;margin:0 auto">Kembali ke Beranda</button>
-</div>
-
-<!-- PAGE: ORDERS -->
-<div class="orders-section" id="page-orders">
-  <h2 style="margin-bottom:1.5rem">📦 Pesanan Saya</h2>
-  <div id="ordersList"></div>
-</div>
-
-<!-- MODAL: Product Detail -->
-<div class="modal-bg" id="detailModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeDetail()">✕</button>
-    <div class="modal-img" id="detailImg"></div>
-    <div class="modal-body">
-      <p class="p-cat" id="detailCat"></p>
-      <h2 id="detailName"></h2>
-      <div class="p-rating" id="detailRating"></div>
-      <div class="price" id="detailPrice"></div>
-      <p class="desc" id="detailDesc"></p>
-      <div class="modal-features" id="detailFeatures"></div>
-      <div style="margin-top:1rem">
-        <label style="font-size:.85rem;font-weight:500">Ukuran / Varian:</label>
-        <div class="modal-row" id="detailSizes"></div>
+  <!-- ===== CART SIDEBAR ===== -->
+  <transition enter-active-class="transition-opacity duration-200" leave-active-class="transition-opacity duration-200"
+    enter-from-class="opacity-0" leave-to-class="opacity-0">
+    <div v-if="showCart" class="fixed inset-0 bg-black/50 z-[200]" @click="showCart=false"></div>
+  </transition>
+  <transition enter-active-class="transition-transform duration-300" leave-active-class="transition-transform duration-300"
+    enter-from-class="translate-x-full" leave-to-class="translate-x-full">
+    <div v-if="showCart" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-[210] flex flex-col">
+      <div class="p-4 border-b border-stone-200 flex justify-between items-center">
+        <h3 class="font-bold text-lg">🛒 Keranjang Belanja</h3>
+        <button @click="showCart=false" class="text-stone-400 hover:text-dark text-xl">✕</button>
       </div>
-      <button class="modal-add" id="detailAddBtn" onclick="addToCartFromDetail()">🛒 Tambah ke Keranjang</button>
+      <div class="flex-1 overflow-y-auto p-4 space-y-3">
+        <div v-if="!cart.length" class="text-center text-stone-400 py-12">
+          <div class="text-4xl mb-2">🛒</div>
+          <p>Keranjang kosong</p>
+        </div>
+        <div v-for="item in cart" :key="item.id" class="flex items-center gap-3 pb-3 border-b border-stone-100">
+          <span class="text-2xl">{{ item.icon }}</span>
+          <div class="flex-1">
+            <p class="font-semibold text-sm">{{ item.name }}</p>
+            <p class="text-brand text-sm font-medium">Rp {{ (item.price*item.qty).toLocaleString('id-ID') }}</p>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button @click="changeQty(item.id,-1)" class="bg-brand-light text-brand w-7 h-7 rounded-md font-bold text-sm">−</button>
+            <span class="w-6 text-center font-semibold text-sm">{{ item.qty }}</span>
+            <button @click="changeQty(item.id,1)" class="bg-brand-light text-brand w-7 h-7 rounded-md font-bold text-sm">+</button>
+          </div>
+          <button @click="removeItem(item.id)" class="text-red-500 hover:text-red-700 text-xs">✕</button>
+        </div>
+      </div>
+      <div v-if="cart.length" class="border-t-2 border-stone-200 p-4">
+        <div class="flex justify-between font-bold text-lg mb-3"><span>Total</span><span class="text-brand">Rp {{ subtotal.toLocaleString('id-ID') }}</span></div>
+        <button @click="showCart=false;page='checkout'" class="w-full bg-brand text-white py-3 rounded-lg font-bold hover:bg-brand-dark transition">📝 Lanjut Checkout</button>
+        <button @click="clearCart()" class="w-full text-red-500 py-2 mt-2 text-sm font-medium hover:bg-red-50 rounded-lg transition">🗑️ Kosongkan Keranjang</button>
+      </div>
     </div>
-  </div>
+  </transition>
+
+  <!-- ===== TOAST ===== -->
+  <transition enter-active-class="transition duration-300" leave-active-class="transition duration-200"
+    enter-from-class="translate-y-4 opacity-0" leave-to-class="translate-y-4 opacity-0">
+    <div v-if="toast.show" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-dark text-white px-5 py-2.5 rounded-lg font-medium shadow-xl z-[300]">
+      {{ toast.msg }}
+    </div>
+  </transition>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bg-stone-900 text-stone-400 mt-12">
+    <div class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div>
+        <p class="text-white font-bold text-lg mb-2">🛒 Toko Sembako Segar</p>
+        <p class="text-sm leading-relaxed">Kebutuhan harian berkualitas dengan harga grosir. Pengiriman sehari sampai untuk area Bandung.</p>
+      </div>
+      <div><h4 class="text-white font-semibold mb-3">Belanja</h4><a href="#" class="block text-sm hover:text-white transition mb-1">Semua Produk</a><a href="#" class="block text-sm hover:text-white transition mb-1">Promo</a></div>
+      <div><h4 class="text-white font-semibold mb-3">Informasi</h4><a href="#" class="block text-sm hover:text-white transition mb-1">Cara Pesan</a><a href="#" class="block text-sm hover:text-white transition mb-1">Kebijakan Pengembalian</a></div>
+      <div><h4 class="text-white font-semibold mb-3">Kontak</h4><p class="text-sm">📍 Jl. Contoh No. 123, Bandung</p><p class="text-sm mt-1">📱 0812-xxxx-xxxx</p></div>
+    </div>
+    <div class="border-t border-stone-700 text-center text-xs py-4">© 2026 Toko Sembako Segar. Hak cipta dilindungi.</div>
+  </footer>
 </div>
-
-<!-- CART SIDEBAR -->
-<div class="cart-bg" id="cartBg" onclick="closeCart()">
-  <div class="cart-panel" onclick="event.stopPropagation()">
-    <div class="cart-head"><h3>🛒 Keranjang Belanja</h3><button onclick="closeCart()" style="background:none;border:none;font-size:1.3rem;cursor:pointer">✕</button></div>
-    <div class="cart-body" id="cartItems"></div>
-    <div class="cart-foot" id="cartFoot" style="display:none">
-      <div style="display:flex;justify-content:space-between;font-size:.9rem;margin-bottom:.5rem"><span>Subtotal</span><span id="cartSubtotal">Rp 0</span></div>
-      <div style="display:flex;justify-content:space-between;font-weight:700;font-size:1.05rem;margin-bottom:.75rem"><span>Total</span><span id="cartTotal">Rp 0</span></div>
-      <button class="cart-btn primary" onclick="goToCheckout()">📝 Lanjut Checkout</button>
-      <button class="cart-btn secondary" onclick="clearCart()">🗑️ Kosongkan Keranjang</button>
-    </div>
-  </div>
-</div>
-
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-grid">
-    <div>
-      <div class="footer-brand">🛒 Toko Sembako Segar</div>
-      <p style="color:var(--muted);font-size:.85rem">Kebutuhan harian berkualitas dengan harga grosir. Pengiriman cepat sehari sampai untuk area Bandung & sekitarnya.</p>
-    </div>
-    <div class="footer-links"><h4>Belanja</h4><a href="#">Semua Produk</a><a href="#">Promo</a><a href="#">Produk Baru</a></div>
-    <div class="footer-links"><h4>Informasi</h4><a href="#">Cara Pesan</a><a href="#">Kebijakan Pengembalian</a><a href="#">FAQ</a></div>
-    <div class="footer-links"><h4>Kontak</h4><a href="#">📍 Jl. Contoh No. 123, Bandung</a><a href="#">📱 0812-xxxx-xxxx</a><a href="#">💬 WhatsApp</a></div>
-  </div>
-  <div class="footer-bottom">© 2026 Toko Sembako Segar. Hak cipta dilindungi.</div>
-</footer>
 
 <script>
-// ===== DATA =====
-const products=[
-  {id:1,name:"Beras Premium 5kg",unit:"5 kg",price:62000,icon:"🍚",cat:"beras",rating:4.8,reviews:124,desc:"Beras premium Pulen Manis Cocok untuk nasi putih, nasi goreng, atau nasi kuning. Beras pilihan dari Jawa Barat.",promo:true,features:["Beras pilihan","Kadar air optimal","Kemasan kedap udara"]},
-  {id:2,name:"Beras Pulen 10kg",unit:"10 kg",price:115000,icon:"🍚",cat:"beras",rating:4.7,reviews:98,desc:"Beras pulen untuk keluarga besar. Cocok untuk nasi sehari-hari, nasi kuning, atau nasi tumpeng.",features:["Isi 10 kg","Hemat untuk keluarga","Kualitas konsisten"]},
-  {id:3,name:"Minyak Goreng 2L",unit:"2 liter",price:32000,icon:"🫒",cat:"minyak",rating:4.6,reviews:210,desc:"Minyak goreng sawit murni. Cocok untuk menggoreng, menumis, atau memanggang.",promo:true,features:["Sawit murni","Kolesterol rendah","Anti pelantak"]},
-  {id:4,name:"Minyak Goreng 1L",unit:"1 liter",price:18500,icon:"🫒",cat:"minyak",rating:4.5,reviews:87,desc:"Kemasan ekonomis untuk penggunaan sehari-hari.",features:["Kemasan praktis","Anti pelantak"]},
-  {id:5,name:"Gula Pasir 1kg",unit:"1 kg",price:15500,icon:"🧂",cat:"gula",rating:4.6,reviews:156,desc:"Gula pasir kristal putih, manis alami. Cocok untuk minuman, masakan, atau kue.",features:["Kristal putih","Manis alami"]},
-  {id:6,name:"Garam Dapur 1kg",unit:"1 kg",price:8500,icon:"🧂",cat:"gula",rating:4.4,reviews:92,desc:"Garam dapur beriodium untuk kebutuhan memasak sehari-hari.",features:["Beriodium","Bersertifikat"]},
-  {id:7,name:"Kecap Manis 600ml",unit:"600 ml",price:14500,icon:"🫗",cat:"bumbu",rating:4.8,reviews:203,desc:"Kecap manis kental asli. Terbuat dari kedelai pilihan, manis legit, cocok untuk semua masakan.",features:["Kedelai pilihan","Manis legit"]},
-  {id:8,name:"Saos Sambal 600ml",unit:"600 ml",price:12000,icon:"🌶️",cat:"bumbu",rating:4.5,reviews:145,desc:"Saus sambal pedas segar. Cocok untuk teman makan atau bumbu masakan.",features:["Pedas segar","Tanpa pengawet"]},
-  {id:9,name:"Paket Bumbu Komplit",unit:"Paket",price:45000,icon:"🌶️",cat:"bumbu",rating:4.9,reviews:67,desc:"Paket komplit bumbu masak: bawang merah, bawang putih, jahe, lengkuas, kemiri. Siap pakai.",promo:true,features:["Siap pakai","100% alami","Praktis"]},
-  {id:10,name:"Mie Instan Indomie",unit:"40 bungkus",price:56000,icon:"🍜",cat:"mi",rating:4.9,reviews:312,desc:"Mie instan paling favorit! Rasa original dengan bumbu khas. Box hemat untuk stok.",features:["Rasa original","Box 40 pcs"]},
-  {id:11,name:"Mie Kering 500g",unit:"500 g",price:12500,icon:"🍜",cat:"mi",rating:4.3,reviews:78,desc:"Mie kering untuk mie goreng atau mie kuah. Tekstur kenyal tahan lama.",features:["Tekstur kenyal","500 gram"]},
-  {id:12,name:"Teh Celup Sariwangi",unit:"25 kantong",price:8500,icon:"🍵",cat:"minuman",rating:4.7,reviews:189,desc:"Teh celup premium dari daun teh pilihan. Wangi dan rasa asli.",features:["25 kantong","Daun teh pilihan"]},
-  {id:13,name:"Kopi Kapal Api",unit:"50 sachet",price:38000,icon:"☕",cat:"minuman",rating:4.8,reviews:234,desc:"Kopi instan khas Indonesia. Robusta pilihan dengan cita rasa yang kuat.",features:["50 sachet","Robusta pilihan"]},
-  {id:14,name:"Air Mineral 1.5L",unit:"1.5 liter",price:5500,icon:"💧",cat:"minuman",rating:4.4,reviews:267,desc:"Air mineral murni dari sumber pegunungan. Higienis dan segar.",features:["Sumber pegunungan","Higienis"]},
-  {id:15,name:"Teh Pucuk Harum",unit:"1.5 liter",price:6500,icon:"🍵",cat:"minuman",rating:4.6,reviews:178,desc:"Teh melati instan yang harum dan segar. Khas Jawa.",features:["Melati asli","1.5 liter"]},
-  {id:16,name:"Chitato Sapi Panggang",unit:"68g",price:11000,icon:"🥔",cat:"snack",rating:4.5,reviews:145,desc:"Keripik kentang rasa sapi panggang. Renyah dan gurih.",features:["68 gram","Renyah"]},
-  {id:17,name:"Oreo Original",unit:"137g",price:8500,icon:"🍪",cat:"snack",rating:4.6,reviews:298,desc:"Biskuit sandwich cokelat dengan krim vanilla. Cemilan favorit sejak kecil.",features:["137 gram","Original"]},
-  {id:18,name:"Good Time Choco Chip",unit:"136g",price:10500,icon:"🍪",cat:"snack",rating:4.4,reviews:112,desc:"Cookie chocolate chip yang renyah dan lezat. Cocok untuk teman ngopi.",features:["136 gram","Choco chip"]},
-];
+const { createApp, ref, computed, watch } = Vue;
 
-// ===== STATE =====
-let cart=JSON.parse(localStorage.getItem('sg_cart')||'[]');
-let orders=JSON.parse(localStorage.getItem('sg_orders')||'[]');
-let currentCat='semua';
-let detailProduct=null;
-let selectedShipping=15000;
-let selectedPayment='cod';
-let voucherDiscount=0;
-let currentPage='home';
+createApp({
+  setup() {
+    // ===== DATA =====
+    const products = ref([
+      {id:1,name:"Beras Premium 5kg",unit:"5kg",price:62000,icon:"🍚",cat:"beras",rating:4.8,reviews:124,desc:"Beras premium Pulen Manis. Pilihan dari Jawa Barat, cocok untuk nasi sehari-hari.",promo:true,features:["Beras pilihan","Kadar air optimal","Kemasan kedap udara"]},
+      {id:2,name:"Beras Pulen 10kg",unit:"10kg",price:115000,icon:"🍚",cat:"beras",rating:4.7,reviews:98,desc:"Beras pulen untuk keluarga besar. Cocok untuk nasi sehari-hari.",features:["Isi 10 kg","Hemat keluarga","Kualitas konsisten"]},
+      {id:3,name:"Minyak Goreng 2L",unit:"2 liter",price:32000,icon:"🫒",cat:"minyak",rating:4.6,reviews:210,desc:"Minyak goreng sawit murni untuk menggoreng, menumis, memanggang.",promo:true,features:["Sawit murni","Kolesterol rendah","Anti pelantak"]},
+      {id:4,name:"Minyak Goreng 1L",unit:"1 liter",price:18500,icon:"🫒",cat:"minyak",rating:4.5,reviews:87,desc:"Kemasan ekonomis untuk penggunaan sehari-hari.",features:["Kemasan praktis","Anti pelantak"]},
+      {id:5,name:"Gula Pasir 1kg",unit:"1 kg",price:15500,icon:"🧂",cat:"gula",rating:4.6,reviews:156,desc:"Gula pasir kristal putih, manis alami. Cocok untuk minuman dan masakan.",features:["Kristal putih","Manis alami"]},
+      {id:6,name:"Garam Dapur 1kg",unit:"1 kg",price:8500,icon:"🧂",cat:"gula",rating:4.4,reviews:92,desc:"Garam dapur beriodium untuk kebutuhan memasak sehari-hari.",features:["Beriodium","Bersertifikat"]},
+      {id:7,name:"Kecap Manis 600ml",unit:"600ml",price:14500,icon:"🫗",cat:"bumbu",rating:4.8,reviews:203,desc:"Kecap manis kental asli dari kedelai pilihan.",features:["Kedelai pilihan","Manis legit"]},
+      {id:8,name:"Saos Sambal 600ml",unit:"600ml",price:12000,icon:"🌶️",cat:"bumbu",rating:4.5,reviews:145,desc:"Saus sambal pedas segar, tanpa pengawet.",features:["Pedas segar","Tanpa pengawet"]},
+      {id:9,name:"Paket Bumbu Komplit",unit:"Paket",price:45000,icon:"🌶️",cat:"bumbu",rating:4.9,reviews:67,desc:"Paket bumbu masak komplit: bawang merah, putih, jahe, lengkuas, kemiri.",promo:true,features:["Siap pakai","100% alami","Praktis"]},
+      {id:10,name:"Mie Instan Indomie",unit:"40 pcs",price:56000,icon:"🍜",cat:"mi",rating:4.9,reviews:312,desc:"Mie instan favorit! Rasa original dengan bumbu khas Indonesia.",features:["Rasa original","Box 40 pcs"]},
+      {id:11,name:"Mie Kering 500g",unit:"500g",price:12500,icon:"🍜",cat:"mi",rating:4.3,reviews:78,desc:"Mie kering untuk mie goreng atau mie kuah.",features:["Tekstur kenyal","500 gram"]},
+      {id:12,name:"Teh Celup Sariwangi",unit:"25 kantong",price:8500,icon:"🍵",cat:"minuman",rating:4.7,reviews:189,desc:"Teh celup premium dari daun teh pilihan. Wangi dan asli.",features:["25 kantong","Daun teh pilihan"]},
+      {id:13,name:"Kopi Kapal Api",unit:"50 sachet",price:38000,icon:"☕",cat:"minuman",rating:4.8,reviews:234,desc:"Kopi instan Robusta pilihan dengan cita rasa kuat.",features:["50 sachet","Robusta pilihan"]},
+      {id:14,name:"Air Mineral 1.5L",unit:"1.5L",price:5500,icon:"💧",cat:"minuman",rating:4.4,reviews:267,desc:"Air mineral dari sumber pegunungan, higienis dan segar.",features:["Sumber pegunungan","Higienis"]},
+      {id:15,name:"Teh Pucuk Harum",unit:"1.5L",price:6500,icon:"🍵",cat:"minuman",rating:4.6,reviews:178,desc:"Teh melati instan yang harum dan segar khas Jawa.",features:["Melati asli","1.5 liter"]},
+      {id:16,name:"Chitato Sapi Panggang",unit:"68g",price:11000,icon:"🥔",cat:"snack",rating:4.5,reviews:145,desc:"Keripik kentang rasa sapi panggang yang renyah dan gurih.",features:["68 gram","Renyah"]},
+      {id:17,name:"Oreo Original",unit:"137g",price:8500,icon:"🍪",cat:"snack",rating:4.6,reviews:298,desc:"Biskuit sandwich cokelat dengan krim vanilla favorit.",features:["137 gram","Original"]},
+      {id:18,name:"Good Time Choco Chip",unit:"136g",price:10500,icon:"🍪",cat:"snack",rating:4.4,reviews:112,desc:"Cookie chocolate chip renyah dan lezat.",features:["136 gram","Choco chip"]},
+    ]);
 
-// ===== PRODUCTS =====
-function renderProducts(filter='semua',search=''){
-  const g=document.getElementById('productGrid');
-  let p=products;
-  if(filter==='promo')p=p.filter(x=>x.promo);
-  else if(filter!=='semua')p=p.filter(x=>x.cat===filter);
-  if(search){const q=search.toLowerCase();p=p.filter(x=>x.name.toLowerCase().includes(q)||x.cat.includes(q)||x.desc.toLowerCase().includes(q))}
-  document.getElementById('productCount').textContent=p.length+' produk';
-  g.innerHTML=p.map(x=>`
-    <div class="p-card" onclick="openDetail(${x.id})">
-      <div class="p-img">${x.icon}${x.promo?'<span class="p-badge">PROMO</span>':''}</div>
-      <div class="p-info">
-        <div class="p-cat">${x.cat}</div>
-        <div class="p-name">${x.name}</div>
-        <div class="p-desc">${x.desc}</div>
-        <div class="p-bottom">
-          <div><span class="p-price">Rp ${x.price.toLocaleString('id-ID')}</span>${x.promo?'<span class="p-old">Rp '+Math.round(x.price*1.2).toLocaleString('id-ID')+'</span>':''}</div>
-          <button class="add-btn" onclick="event.stopPropagation();addToCart(${x.id})" title="Tambah">+</button>
-        </div>
-        <div class="p-rating">⭐ ${x.rating} · ${x.reviews} ulasan</div>
-      </div>
-    </div>`).join('');
-}
+    const categories = ref([
+      {key:'semua',icon:'🏪',label:'Semua'},
+      {key:'beras',icon:'🍚',label:'Beras'},
+      {key:'minyak',icon:'🫒',label:'Minyak'},
+      {key:'gula',icon:'🧂',label:'Gula'},
+      {key:'bumbu',icon:'🌶️',label:'Bumbu'},
+      {key:'mi',icon:'🍜',label:'Mie'},
+      {key:'minuman',icon:'🥤',label:'Minuman'},
+      {key:'snack',icon:'🍪',label:'Snack'},
+      {key:'promo',icon:'🔥',label:'Promo'},
+    ]);
 
-function filterCat(c){currentCat=c;renderProducts(c);document.getElementById('sectionTitle').textContent=c==='semua'?'Semua Produk':c==='promo'?'🔥 Promo':'Kategori '+c.charAt(0).toUpperCase()+c.slice(1);showPage('home');document.getElementById('section-produk').scrollIntoView({behavior:'smooth'})}
-function searchProducts(){renderProducts(currentCat,document.getElementById('searchInput').value)}
+    const shippings = ref([
+      {key:'grab',label:'GoSend / GrabExpress',time:'Hari ini',price:15000},
+      {key:'jne',label:'JNE YES',time:'1-2 hari',price:8000},
+      {key:'jt',label:'J&T Express',time:'2-3 hari',price:7000},
+    ]);
 
-// ===== DETAIL =====
-function openDetail(id){
-  const p=products.find(x=>x.id===id);detailProduct=p;
-  document.getElementById('detailImg').textContent=p.icon;
-  document.getElementById('detailCat').textContent=p.cat;
-  document.getElementById('detailName').textContent=p.name;
-  document.getElementById('detailRating').textContent='⭐ '+p.rating+' · '+p.reviews+' ulasan';
-  document.getElementById('detailPrice').textContent='Rp '+p.price.toLocaleString('id-ID');
-  document.getElementById('detailDesc').textContent=p.desc;
-  document.getElementById('detailFeatures').innerHTML=p.features.map(f=>'✓ '+f).map(f=>`<div>${f}</div>`).join('');
-  document.getElementById('detailModal').classList.add('show');
-}
-function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
-function addToCartFromDetail(){if(detailProduct){addToCart(detailProduct.id);closeDetail()}}
+    const payments = ref([
+      {key:'cod',icon:'💵',label:'COD',desc:'Bayar di tempat'},
+      {key:'qris',icon:'📱',label:'QRIS',desc:'Bayar via QR'},
+      {key:'va',icon:'🏦',label:'Transfer Bank (VA)',desc:'BCA, Mandiri, BRI'},
+      {key:'ewallet',icon:'💳',label:'E-Wallet',desc:'GoPay, OVO, DANA'},
+    ]);
 
-// ===== CART =====
-function addToCart(id){const item=cart.find(c=>c.id===id);if(item)item.qty++;else{const p=products.find(x=>x.id===id);cart.push({...p,qty:1})}saveCart();showToast('✅ Ditambahkan ke keranjang!')}
-function changeQty(id,delta){const i=cart.find(c=>c.id===id);if(i){i.qty+=delta;if(i.qty<=0)cart=cart.filter(c=>c.id!==id)}saveCart()}
-function removeItem(id){cart=cart.filter(c=>c.id!==id);saveCart()}
-function clearCart(){cart=[];saveCart();showToast('🗑️ Keranjang dikosongkan')}
-function saveCart(){localStorage.setItem('sg_cart',JSON.stringify(cart));document.getElementById('cartBadge').textContent=cart.reduce((s,i)=>s+i.qty,0);renderCart();renderOrderSummary()}
-function renderCart(){
-  const el=document.getElementById('cartItems'),foot=document.getElementById('cartFoot');
-  if(!cart.length){el.innerHTML='<div class="cart-empty"><div class="icon">🛒</div><p>Keranjang kosong<br><small>Mulai belanja sekarang!</small></p></div>';foot.style.display='none';return}
-  el.innerHTML=cart.map(c=>`<div class="ci"><span class="ci-icon">${c.icon}</span><div class="ci-info"><div class="ci-name">${c.name}</div><div class="ci-price">Rp ${(c.price*c.qty).toLocaleString('id-ID')}</div></div><div class="ci-qty"><button onclick="changeQty(${c.id},-1)">−</button><span>${c.qty}</span><button onclick="changeQty(${c.id},1)">+</button></div><button class="ci-remove" onclick="removeItem(${c.id})">✕</button></div>`).join('');
-  const subtotal=cart.reduce((s,i)=>s+i.price*i.qty,0);
-  document.getElementById('cartSubtotal').textContent='Rp '+subtotal.toLocaleString('id-ID');
-  document.getElementById('cartTotal').textContent='Rp '+subtotal.toLocaleString('id-ID');
-  foot.style.display='block';
-}
-function openCart(){document.getElementById('cartBg').classList.add('show');renderCart()}
-function closeCart(){document.getElementById('cartBg').classList.remove('show')}
+    // ===== STATE =====
+    const page = ref('home');
+    const currentCat = ref('semua');
+    const search = ref('');
+    const cart = ref(JSON.parse(localStorage.getItem('sg_cart') || '[]'));
+    const orders = ref(JSON.parse(localStorage.getItem('sg_orders') || '[]'));
+    const showCart = ref(false);
+    const detailProduct = ref(null);
+    const selectedShipping = ref(shippings.value[0]);
+    const selectedPayment = ref(payments.value[0]);
+    const voucherCode = ref('');
+    const voucherDisc = ref(0);
+    const form = ref({name:'',phone:'',address:'',zip:'40253'});
+    const lastOrder = ref(null);
+    const toast = ref({show:false, msg:''});
 
-// ===== CHECKOUT =====
-function goToCheckout(){if(!cart.length){showToast('Keranjang masih kosong!');return}closeCart();showPage('checkout');renderOrderSummary()}
-function renderOrderSummary(){
-  const el=document.getElementById('orderItems');
-  el.innerHTML=cart.map(c=>`<div class="os-item"><span>${c.icon} ${c.name} × ${c.qty}</span><span>Rp ${(c.price*c.qty).toLocaleString('id-ID')}</span></div>`).join('');
-  const subtotal=cart.reduce((s,i)=>s+i.price*i.qty,0);
-  document.getElementById('osSubtotal').textContent='Rp '+subtotal.toLocaleString('id-ID');
-  document.getElementById('osShipping').textContent='Rp '+selectedShipping.toLocaleString('id-ID');
-  document.getElementById('osDiscount').textContent='-Rp '+voucherDiscount.toLocaleString('id-ID');
-  document.getElementById('osDiscountRow').style.display=voucherDiscount?'flex':'none';
-  const total=subtotal+selectedShipping-voucherDiscount;
-  document.getElementById('osTotal').textContent='Rp '+total.toLocaleString('id-ID');
-}
-function selectShipping(el,method){document.querySelectorAll('[name=shipping]').forEach(r=>r.parentElement.classList.remove('active'));el.classList.add('active');el.querySelector('input').checked=true;selectedShipping=parseInt(el.dataset.price);renderOrderSummary()}
-function selectPayment(el,method){document.querySelectorAll('[name=payment]').forEach(r=>r.parentElement.classList.remove('active'));el.classList.add('active');el.querySelector('input').checked=true;selectedPayment=method;renderOrderSummary()}
+    // ===== COMPUTED =====
+    const filtered = computed(() => {
+      let p = products.value;
+      if (currentCat.value === 'promo') p = p.filter(x => x.promo);
+      else if (currentCat.value !== 'semua') p = p.filter(x => x.cat === currentCat.value);
+      if (search.value) { const q = search.value.toLowerCase(); p = p.filter(x => x.name.toLowerCase().includes(q) || x.cat.includes(q) || x.desc.toLowerCase().includes(q)); }
+      return p;
+    });
 
-// ===== VOUCHER =====
-const VOUCHERS={HEMAT10:{discount:0.1,type:'percent'},GRATIS5K:{discount:5000,type:'fixed'}};
-function applyVoucher(){
-  const code=document.getElementById('voucherInput').value.toUpperCase().trim();
-  const v=VOUCHERS[code];
-  if(!v){showToast('❌ Kode voucher tidak valid');return}
-  const subtotal=cart.reduce((s,i)=>s+i.price*i.qty,0);
-  voucherDiscount=v.type==='percent'?Math.round(subtotal*v.discount):v.discount;
-  showToast('✅ Voucher diterapkan! Diskon Rp '+voucherDiscount.toLocaleString('id-ID'));
-  renderOrderSummary();
-}
+    const catLabel = computed(() => {
+      if (currentCat.value === 'semua') return 'Semua Produk';
+      if (currentCat.value === 'promo') return '🔥 Promo';
+      return currentCat.value.charAt(0).toUpperCase() + currentCat.value.slice(1);
+    });
 
-// ===== PLACE ORDER =====
-function placeOrder(){
-  if(!cart.length){showToast('Keranjang kosong!');return}
-  const fname=document.getElementById('fname').value;
-  const fphone=document.getElementById('fphone').value;
-  const faddress=document.getElementById('faddress').value;
-  if(!fname||!fphone||!faddress){showToast('⚠️ Lengkapi data pengiriman!');return}
-  const subtotal=cart.reduce((s,i)=>s+i.price*i.qty,0);
-  const total=subtotal+selectedShipping-voucherDiscount;
-  const order={
-    id:'ORD-'+Date.now().toString().slice(-6),
-    items:[...cart],
-    subtotal,shipping:selectedShipping,discount:voucherDiscount,total,
-    name:fname,phone:fphone,address:faddress,
-    payment:selectedPayment,
-    status:'pending',
-    date:new Date().toISOString()
-  };
-  orders.push(order);
-  localStorage.setItem('sg_orders',JSON.stringify(orders));
-  cart=[];saveCart();voucherDiscount=0;
-  // Show success
-  document.getElementById('successDetails').innerHTML=`
-    <tr><td>No. Pesanan</td><td><strong>${order.id}</strong></td></tr>
-    <tr><td>Items</td><td>${order.items.map(i=>i.name+' × '+i.qty).join(', ')}</td></tr>
-    <tr><td>Total</td><td><strong>Rp ${order.total.toLocaleString('id-ID')}</strong></td></tr>
-    <tr><td>Pembayaran</td><td>${order.payment.toUpperCase()}</td></tr>
-    <tr><td>Estimasi Kirim</td><td>${order.shipping===15000?'Hari ini':'2-3 hari'}</td></tr>
-    <tr><td>Ke</td><td>${order.address}</td></tr>`;
-  showPage('success');
-}
+    const cartCount = computed(() => cart.value.reduce((s, i) => s + i.qty, 0));
+    const subtotal = computed(() => cart.value.reduce((s, i) => s + i.price * i.qty, 0));
+    const voucherDiscAmt = computed(() => {
+      const code = voucherCode.value.toUpperCase().trim();
+      if (code === 'HEMAT10') return Math.round(subtotal.value * 0.1);
+      if (code === 'GRATIS5K') return 5000;
+      return voucherDisc.value;
+    });
+    const total = computed(() => subtotal.value + selectedShipping.value.price - voucherDiscAmt.value);
 
-// ===== ORDERS =====
-function renderOrders(){
-  const el=document.getElementById('ordersList');
-  if(!orders.length){el.innerHTML='<p style="color:var(--muted);text-align:center;padding:2rem">Belum ada pesanan</p>';return}
-  el.innerHTML=orders.map(o=>{
-    const statusClass='status-'+o.status;
-    const statusText={pending:'⏳ Menunggu',paid:'💳 Dibayar',shipped:'🚚 Dikirim',delivered:'✅ Diterima'}[o.status];
-    return `<div class="order-card">
-      <div class="order-card-head"><span class="order-id">${o.id}</span><span class="order-status ${statusClass}">${statusText}</span></div>
-      <div class="order-items">${o.items.map(i=>i.name+' × '+i.qty).join(', ')}</div>
-      <div class="order-total">Rp ${o.total.toLocaleString('id-ID')}</div>
-    </div>`;
-  }).join('');
-}
+    // ===== METHODS =====
+    function setCat(key) { currentCat.value = key; page.value = 'home'; }
+    function filterProducts() {} // Vue reactivity handles this
+    function addCart(id) {
+      const item = cart.value.find(c => c.id === id);
+      if (item) item.qty++;
+      else { const p = products.value.find(x => x.id === id); cart.value.push({...p, qty: 1}); }
+      saveCart();
+      showMsg('✅ Ditambahkan ke keranjang!');
+    }
+    function changeQty(id, d) {
+      const i = cart.value.find(c => c.id === id);
+      if (i) { i.qty += d; if (i.qty <= 0) cart.value = cart.value.filter(c => c.id !== id); }
+      saveCart();
+    }
+    function removeItem(id) { cart.value = cart.value.filter(c => c.id !== id); saveCart(); }
+    function clearCart() { cart.value = []; saveCart(); showMsg('🗑️ Keranjang dikosongkan'); }
+    function saveCart() { localStorage.setItem('sg_cart', JSON.stringify(cart.value)); }
+    function openDetail(p) { detailProduct.value = p; }
+    function applyVoucher() {
+      const code = voucherCode.value.toUpperCase().trim();
+      if (code === 'HEMAT10') { voucherDisc.value = Math.round(subtotal.value * 0.1); showMsg('✅ Diskon 10% diterapkan!'); }
+      else if (code === 'GRATIS5K') { voucherDisc.value = 5000; showMsg('✅ Diskon Rp 5.000 diterapkan!'); }
+      else { voucherDisc.value = 0; showMsg('❌ Kode voucher tidak valid'); }
+    }
+    function placeOrder() {
+      if (!form.value.name || !form.value.phone || !form.value.address) { showMsg('⚠️ Lengkapi data pengiriman!'); return; }
+      if (!cart.value.length) { showMsg('Keranjang kosong!'); return; }
+      const order = {
+        id: 'ORD-' + Date.now().toString().slice(-6),
+        items: [...cart.value],
+        subtotal: subtotal.value, shipping: selectedShipping.value, discount: voucherDiscAmt.value, total: total.value,
+        name: form.value.name, phone: form.value.phone, address: form.value.address, zip: form.value.zip,
+        payment: selectedPayment.value, status: 'pending', date: new Date().toISOString(),
+      };
+      orders.value.push(order);
+      localStorage.setItem('sg_orders', JSON.stringify(orders.value));
+      lastOrder.value = order;
+      cart.value = []; saveCart(); voucherCode.value = ''; voucherDisc.value = 0;
+      page.value = 'success';
+    }
+    function statusStyle(s) { return {pending:'bg-yellow-100 text-yellow-700',paid:'bg-blue-100 text-blue-700',shipped:'bg-green-100 text-green-700',delivered:'bg-green-200 text-green-800'}[s] || ''; }
+    function statusLabel(s) { return {pending:'⏳ Menunggu',paid:'💳 Dibayar',shipped:'🚚 Dikirim',delivered:'✅ Diterima'}[s] || s; }
+    function showMsg(msg) { toast.value = {show:true, msg}; setTimeout(() => toast.value.show = false, 2500); }
 
-// ===== PAGE NAVIGATION =====
-function showPage(page){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+page).classList.add('active');
-  currentPage=page;
-  if(page==='orders')renderOrders();
-}
-
-// ===== TOAST =====
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
-
-// ===== INIT =====
-renderProducts();saveCart();renderOrderSummary();
+    return {
+      page, currentCat, search, cart, orders, showCart, detailProduct, selectedShipping, selectedPayment, voucherCode, voucherDisc, form, lastOrder, toast,
+      products, categories, shippings, payments,
+      filtered, catLabel, cartCount, subtotal, voucherDiscAmt, total,
+      setCat, filterProducts, addCart, changeQty, removeItem, clearCart, saveCart, openDetail, applyVoucher, placeOrder, statusStyle, statusLabel, showMsg,
+    };
+  }
+}).mount('#app');
 </script>
 </body>
 </html>
