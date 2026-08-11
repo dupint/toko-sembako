@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toko Sembako Segar — Belanja Kebutuhan Harian</title>
+  <meta name="description" content="Toko sembako online terpercaya. Beras, minyak, gula, bumbu dapur. Pengiriman cepat sehari sampai.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #16a34a;
+      --green-dark: #15803d;
+      --green-light: #dcfce7;
+      --bg: #fafaf9;
+      --card: #ffffff;
+      --text: #1c1917;
+      --muted: #78716c;
+      --border: #e7e5e4;
+      --radius: 12px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    
+    /* Header */
+    header { background: var(--green); color: white; padding: 0.75rem 1.5rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+    .logo span { font-size: 1.8rem; }
+    nav a { color: white; text-decoration: none; margin-left: 1.5rem; font-weight: 500; opacity: 0.9; transition: opacity 0.2s; }
+    nav a:hover { opacity: 1; }
+    .cart-btn { background: white; color: var(--green); border: none; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.9rem; }
+    .cart-count { background: #fbbf24; color: #1c1917; border-radius: 50%; padding: 0.1rem 0.45rem; font-size: 0.75rem; margin-left: 0.3rem; }
+    
+    /* Hero */
+    .hero { background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%); color: white; padding: 4rem 1.5rem; text-align: center; }
+    .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+    .hero p { font-size: 1.15rem; opacity: 0.9; max-width: 600px; margin: 0 auto 2rem; }
+    .hero-btn { background: white; color: var(--green); border: none; padding: 0.8rem 2rem; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+    .hero-features { display: flex; justify-content: center; gap: 3rem; margin-top: 2.5rem; flex-wrap: wrap; }
+    .hero-features div { text-align: center; }
+    .hero-features .icon { font-size: 2rem; }
+    .hero-features .label { font-size: 0.9rem; opacity: 0.85; }
+    
+    /* Categories */
+    .section { max-width: 1200px; margin: 0 auto; padding: 3rem 1.5rem; }
+    .section-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .section-subtitle { color: var(--muted); margin-bottom: 2rem; }
+    .categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 3rem; }
+    .category-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; text-align: center; cursor: pointer; transition: all 0.2s; }
+    .category-card:hover { border-color: var(--green); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .category-card .icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .category-card .name { font-weight: 600; font-size: 0.9rem; }
+    
+    /* Products */
+    .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.25rem; }
+    .product-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: all 0.2s; }
+    .product-card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+    .product-img { width: 100%; height: 180px; object-fit: cover; background: var(--green-light); display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+    .product-info { padding: 1rem; }
+    .product-name { font-weight: 600; margin-bottom: 0.3rem; }
+    .product-unit { color: var(--muted); font-size: 0.85rem; margin-bottom: 0.5rem; }
+    .product-bottom { display: flex; justify-content: space-between; align-items: center; }
+    .product-price { font-size: 1.15rem; font-weight: 700; color: var(--green); }
+    .add-btn { background: var(--green); color: white; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+    .add-btn:hover { background: var(--green-dark); }
+    
+    /* Cart Modal */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 200; }
+    .modal { background: white; position: fixed; top: 0; right: 0; width: 420px; max-width: 100%; height: 100%; padding: 1.5rem; overflow-y: auto; box-shadow: -4px 0 20px rgba(0,0,0,0.15); }
+    .modal h2 { margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+    .close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--muted); }
+    .cart-item { display: flex; align-items: center; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border); }
+    .cart-item-icon { font-size: 2rem; }
+    .cart-item-info { flex: 1; }
+    .cart-item-name { font-weight: 600; }
+    .cart-item-price { color: var(--green); font-weight: 600; }
+    .qty-btn { background: var(--green-light); border: none; width: 28px; height: 28px; border-radius: 6px; cursor: pointer; font-size: 1rem; font-weight: 700; }
+    .qty { margin: 0 0.5rem; font-weight: 600; min-width: 20px; text-align: center; }
+    .cart-empty { text-align: center; padding: 3rem 0; color: var(--muted); }
+    .cart-empty .icon { font-size: 3rem; margin-bottom: 0.5rem; }
+    .cart-footer { margin-top: 1.5rem; border-top: 2px solid var(--border); padding-top: 1rem; }
+    .cart-total { font-size: 1.2rem; font-weight: 700; display: flex; justify-content: space-between; margin-bottom: 1rem; }
+    .checkout-btn { width: 100%; background: var(--green); color: white; border: none; padding: 0.9rem; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+    
+    /* Footer */
+    footer { background: #292524; color: #d6d3d1; padding: 3rem 1.5rem; margin-top: 3rem; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem; }
+    .footer-brand { font-size: 1.3rem; font-weight: 700; color: white; margin-bottom: 0.5rem; }
+    .footer-links h4 { color: white; margin-bottom: 0.8rem; }
+    .footer-links a { color: var(--muted); text-decoration: none; display: block; margin-bottom: 0.4rem; font-size: 0.9rem; }
+    .footer-links a:hover { color: white; }
+    .footer-bottom { max-width: 1200px; margin: 1.5rem auto 0; padding-top: 1.5rem; border-top: 1px solid #44403c; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    
+    /* Toast */
+    .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: #1c1917; color: white; padding: 0.7rem 1.5rem; border-radius: 8px; font-weight: 500; z-index: 300; display: none; }
+    
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 1.8rem; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .modal { width: 100%; }
+      .hero-features { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <div class="logo"><span>🛒</span> Toko Sembako Segar</div>
+      <nav>
+        <a href="#produk">Produk</a>
+        <a href="#promo">Promo</a>
+        <a href="#tentang">Tentang</a>
+      </nav>
+      <button class="cart-btn" onclick="openCart()">🛒 Keranjang <span class="cart-count" id="cartCount">0</span></button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Kebutuhan Harian, Langsung ke Rumah 🏠</h1>
+    <p>Beras premium, minyak goreng, gula, bumbu dapur — semua kebutuhan sembako ada di sini. Pengiriman hari yang sama untuk area Bandung.</p>
+    <button class="hero-btn" onclick="document.getElementById('produk').scrollIntoView({behavior:'smooth'})">Mulai Belanja</button>
+    <div class="hero-features">
+      <div><div class="icon">🚚</div><div class="label">Kirim Hari Ini</div></div>
+      <div><div class="icon">💰</div><div class="label">Harga Grosir</div></div>
+      <div><div class="icon">✅</div><div class="label">Jaminan Segar</div></div>
+      <div><div class="icon">💳</div><div class="label">Bayar di Tempat</div></div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="section" id="kategori">
+    <h2 class="section-title">Kategori</h2>
+    <div class="categories">
+      <div class="category-card" onclick="filterCategory('semua')"><div class="icon">🏪</div><div class="name">Semua</div></div>
+      <div class="category-card" onclick="filterCategory('beras')"><div class="icon">🍚</div><div class="name">Beras</div></div>
+      <div class="category-card" onclick="filterCategory('minyak')"><div class="icon">🫒</div><div class="name">Minyak</div></div>
+      <div class="category-card" onclick="filterCategory('gula')"><div class="icon">🧂</div><div class="name">Gula & Garam</div></div>
+      <div class="category-card" onclick="filterCategory('bumbu')"><div class="icon">🌶️</div><div class="name">Bumbu Dapur</div></div>
+      <div class="category-card" onclick="filterCategory('mi')"><div class="icon">🍜</div><div class="name">Mie & Pasta</div></div>
+      <div class="category-card" onclick="filterCategory('minuman')"><div class="icon">🥤</div><div class="name">Minuman</div></div>
+      <div class="category-card" onclick="filterCategory('snack')"><div class="icon">🍪</div><div class="name">Snack</div></div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="section" id="produk">
+    <h2 class="section-title">Produk Kami</h2>
+    <p class="section-subtitle">Semua harga sudah termasuk pajak</p>
+    <div class="products" id="productList"></div>
+  </section>
+
+  <!-- Promo Banner -->
+  <section class="section" id="promo" style="background: var(--green-light); border-radius: var(--radius); margin-left: 1.5rem; margin-right: 1.5rem; max-width: 1170px;">
+    <h2 class="section-title">🔥 Promo Minggu Ini</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+      <div style="background:white; padding:1rem; border-radius:8px;">
+        <div style="font-size:2rem;">🍚</div>
+        <div style="font-weight:600;">Beras Premium 5kg</div>
+        <div style="color:var(--green); font-weight:700;">Rp 62.000 <span style="text-decoration:line-through;color:var(--muted);font-size:0.85rem;">Rp 70.000</span></div>
+      </div>
+      <div style="background:white; padding:1rem; border-radius:8px;">
+        <div style="font-size:2rem;">🫒</div>
+        <div style="font-weight:600;">Minyak Goreng 2L</div>
+        <div style="color:var(--green); font-weight:700;">Rp 32.000 <span style="text-decoration:line-through;color:var(--muted);font-size:0.85rem;">Rp 38.000</span></div>
+      </div>
+      <div style="background:white; padding:1rem; border-radius:8px;">
+        <div style="font-size:2rem;">🌶️</div>
+        <div style="font-weight:600;">Paket Bumbu Komplit</div>
+        <div style="color:var(--green); font-weight:700;">Rp 45.000 <span style="text-decoration:line-through;color:var(--muted);font-size:0.85rem;">Rp 55.000</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tentang -->
+  <section class="section" id="tentang">
+    <h2 class="section-title">Tentang Toko Sembako Segar</h2>
+    <p style="max-width:700px; color: var(--muted); margin-top:1rem;">Toko Sembako Segar adalah toko kebutuhan harian yang menyediakan beras, minyak, gula, bumbu, dan sembako lainnya dengan harga grosir. Kami melayani pengiriman untuk area Bandung dan sekitarnya.</p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">🛒 Toko Sembako Segar</div>
+        <p style="color:#a8a29e; font-size:0.9rem;">Kebutuhan harian berkualitas dengan harga grosir. Pengiriman cepat sehari sampai untuk area Bandung.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Belanja</h4>
+        <a href="#produk">Semua Produk</a>
+        <a href="#promo">Promo</a>
+        <a href="#">Panduan Belanja</a>
+      </div>
+      <div class="footer-links">
+        <h4>Kontak</h4>
+        <a href="#">📍 Jl. Contoh No. 123, Bandung</a>
+        <a href="#">📱 0812-xxxx-xxxx</a>
+        <a href="#">💬 WhatsApp</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Toko Sembako Segar. Hak cipta dilindungi.</div>
+  </footer>
+
+  <!-- Cart Modal -->
+  <div class="modal-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <div class="modal" id="cartModal" style="display:none;">
+    <h2>🛒 Keranjang <button class="close-btn" onclick="closeCart()">✕</button></h2>
+    <div id="cartItems"></div>
+    <div class="cart-footer" id="cartFooter" style="display:none;">
+      <div class="cart-total"><span>Total</span><span id="cartTotal">Rp 0</span></div>
+      <button class="checkout-btn" onclick="checkout()">✅ Checkout — Bayar Sekarang</button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // Product Data
+    const products = [
+      { id: 1, name: 'Beras Premium 5kg', unit: '5 kg', price: 62000, icon: '🍚', category: 'beras', promo: true },
+      { id: 2, name: 'Beras Pulen 10kg', unit: '10 kg', price: 115000, icon: '🍚', category: 'beras' },
+      { id: 3, name: 'Minyak Goreng 2L', unit: '2 liter', price: 32000, icon: '🫒', category: 'minyak', promo: true },
+      { id: 4, name: 'Minyak Goreng 1L', unit: '1 liter', price: 18500, icon: '🫒', category: 'minyak' },
+      { id: 5, name: 'Gula Pasir 1kg', unit: '1 kg', price: 15500, icon: '🧂', category: 'gula' },
+      { id: 6, name: 'Garam Dapur 1kg', unit: '1 kg', price: 8500, icon: '🧂', category: 'gula' },
+      { id: 7, name: 'Kecap Manis 600ml', unit: '600 ml', price: 14500, icon: '🫗', category: 'bumbu' },
+      { id: 8, name: 'Saos Sambal 600ml', unit: '600 ml', price: 12000, icon: '🌶️', category: 'bumbu' },
+      { id: 9, name: 'Paket Bumbu Komplit', unit: 'Paket', price: 45000, icon: '🌶️', category: 'bumbu', promo: true },
+      { id: 10, name: 'Mie Instan Indomie (Box)', unit: '40 bungkus', price: 56000, icon: '🍜', category: 'mi' },
+      { id: 11, name: 'Mie Kering 500g', unit: '500 g', price: 12500, icon: '🍜', category: 'mi' },
+      { id: 12, name: 'Teh Celup Sariwangi', unit: '25 kantong', price: 8500, icon: '🍵', category: 'minuman' },
+      { id: 13, name: 'Kopi Kapal Api (Box)', unit: '50 sachet', price: 38000, icon: '☕', category: 'minuman' },
+      { id: 14, name: 'Air Mineral 1.5L', unit: '1.5 liter', price: 5500, icon: '💧', category: 'minuman' },
+      { id: 15, name: 'Teh Pucuk Harum', unit: '1.5 liter', price: 6500, icon: '🍵', category: 'minuman' },
+      { id: 16, name: 'Snack Chitato', unit: '68g', price: 11000, icon: '🥔', category: 'snack' },
+      { id: 17, name: 'Oreo', unit: '137g', price: 8500, icon: '🍪', category: 'snack' },
+      { id: 18, name: 'Good Time', unit: '136g', price: 10500, icon: '🍪', category: 'snack' },
+    ];
+
+    // Cart State
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    let currentFilter = 'semua';
+
+    // Render Products
+    function renderProducts() {
+      const list = document.getElementById('productList');
+      const filtered = currentFilter === 'semua' ? products : products.filter(p => p.category === currentFilter);
+      list.innerHTML = filtered.map(p => `
+        <div class="product-card">
+          <div class="product-img">${p.icon}</div>
+          <div class="product-info">
+            <div class="product-name">${p.name}</div>
+            <div class="product-unit">${p.unit}${p.promo ? ' <span style="color:var(--green);font-weight:600;">🔥 PROMO</span>' : ''}</div>
+            <div class="product-bottom">
+              <div class="product-price">Rp ${p.price.toLocaleString('id-ID')}</div>
+              <button class="add-btn" onclick="addToCart(${p.id})" title="Tambah ke keranjang">+</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Filter
+    function filterCategory(cat) {
+      currentFilter = cat;
+      renderProducts();
+    }
+
+    // Cart Functions
+    function addToCart(id) {
+      const item = cart.find(c => c.id === id);
+      if (item) { item.qty++; } else {
+        const product = products.find(p => p.id === id);
+        cart.push({ ...product, qty: 1 });
+      }
+      saveCart();
+      renderCart();
+      showToast(`${products.find(p=>p.id===id).name} ditambahkan ke keranjang!`);
+    }
+
+    function changeQty(id, delta) {
+      const item = cart.find(c => c.id === id);
+      if (item) { item.qty += delta; if (item.qty <= 0) cart = cart.filter(c => c.id !== id); }
+      saveCart();
+      renderCart();
+    }
+
+    function saveCart() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      document.getElementById('cartCount').textContent = cart.reduce((s, i) => s + i.qty, 0);
+    }
+
+    function renderCart() {
+      const el = document.getElementById('cartItems');
+      const footer = document.getElementById('cartFooter');
+      if (cart.length === 0) {
+        el.innerHTML = '<div class="cart-empty"><div class="icon">🛒</div><p>Keranjang masih kosong<br><small>Mulai belanja dari produk di atas</small></p></div>';
+        footer.style.display = 'none';
+        return;
+      }
+      el.innerHTML = cart.map(c => `
+        <div class="cart-item">
+          <div class="cart-item-icon">${c.icon}</div>
+          <div class="cart-item-info">
+            <div class="cart-item-name">${c.name}</div>
+            <div class="cart-item-price">Rp ${(c.price * c.qty).toLocaleString('id-ID')}</div>
+          </div>
+          <button class="qty-btn" onclick="changeQty(${c.id}, -1)">−</button>
+          <span class="qty">${c.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${c.id}, 1)">+</button>
+        </div>
+      `).join('');
+      footer.style.display = 'block';
+      document.getElementById('cartTotal').textContent = 'Rp ' + cart.reduce((s, i) => s + i.price * i.qty, 0).toLocaleString('id-ID');
+    }
+
+    // Cart Modal
+    function openCart() { document.getElementById('cartOverlay').style.display = 'block'; document.getElementById('cartModal').style.display = 'block'; renderCart(); }
+    function closeCart() { document.getElementById('cartOverlay').style.display = 'none'; document.getElementById('cartModal').style.display = 'none'; }
+
+    // Checkout
+    function checkout() {
+      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      showToast(`Pesanan dikonfirmasi! Total: Rp ${total.toLocaleString('id-ID')}`);
+      cart = []; saveCart(); renderCart(); closeCart();
+    }
+
+    // Toast
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.style.display = 'block';
+      setTimeout(() => t.style.display = 'none', 2500);
+    }
+
+    // Init
+    renderProducts(); saveCart();
+  </script>
+</body>
+</html>
