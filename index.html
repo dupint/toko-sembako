@@ -48,12 +48,27 @@
 
   <!-- ===== NAV ===== -->
   <nav class="bg-white border-b border-stone-200 overflow-x-auto">
-    <div class="max-w-7xl mx-auto px-4 flex gap-1">
-      <button v-for="c in categories" :key="c.key" @click="setCat(c.key)"
-        :class="currentCat===c.key ? 'border-brand text-brand bg-brand-light' : 'border-transparent text-stone-500 hover:text-brand'"
-        class="px-4 py-2.5 text-sm font-medium border-b-2 whitespace-nowrap transition">
-        {{ c.icon }} {{ c.label }}
+    <div class="max-w-7xl mx-auto px-4 flex gap-1 items-center">
+      <!-- Tombol kembali (tampil di halaman selain home) -->
+      <button v-if="page!=='home'" @click="page='home';currentCat='semua'"
+        class="px-3 py-2.5 text-sm font-medium text-brand hover:bg-brand-light rounded-lg transition flex items-center gap-1 whitespace-nowrap mr-1">
+        ← Beranda
       </button>
+      <span v-if="page!=='home'" class="text-stone-300 mx-1">|</span>
+      <!-- Category links (hanya tampil di home) -->
+      <template v-if="page==='home'">
+        <button v-for="c in categories" :key="c.key" @click="setCat(c.key)"
+          :class="currentCat===c.key ? 'border-brand text-brand bg-brand-light' : 'border-transparent text-stone-500 hover:text-brand'"
+          class="px-4 py-2.5 text-sm font-medium border-b-2 whitespace-nowrap transition">
+          {{ c.icon }} {{ c.label }}
+        </button>
+      </template>
+      <!-- Breadcrumb tampil di halaman lain -->
+      <span v-else class="text-sm text-stone-400 py-2.5 whitespace-nowrap">
+        <span class="text-brand cursor-pointer hover:underline" @click="page='home';currentCat='semua'">Beranda</span>
+        <span class="mx-2">/</span>
+        <span class="text-dark font-medium">{{ page==='checkout'?'Checkout':page==='orders'?'Pesanan Saya':'Berhasil!' }}</span>
+      </span>
     </div>
   </nav>
 
@@ -185,7 +200,10 @@
         <div class="flex justify-between"><span class="text-stone-500">Pengiriman</span><span>{{ lastOrder.shipping.label }}</span></div>
       </div>
     </div>
-    <button @click="page='home'" class="bg-brand text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-dark transition">Kembali ke Beranda</button>
+    <div class="flex gap-3 justify-center">
+      <button @click="page='orders'" class="bg-white border-2 border-brand text-brand px-6 py-3 rounded-lg font-bold hover:bg-brand-light transition">📦 Lihat Pesanan</button>
+      <button @click="page='home'" class="bg-brand text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-dark transition">← Kembali ke Beranda</button>
+    </div>
   </main>
 
   <!-- ===== PAGE: ORDERS ===== -->
