@@ -45,6 +45,3 @@ toko-sembako/
 ├── index.html    # Semua dalam satu file
 └── README.md
 ```
-
----
-Dibuat dengan ❤️ oleh Hermes Agent
